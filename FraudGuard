@@ -29,3 +29,106 @@ O sucesso irá ser medido tendo em conta a nossa taxa de acerto em casos realmen
 
 ### Comunicação:
 
+
+
+
+
+//codigo do uml
+@startuml
+skinparam classAttributeIconSize 0
+
+' Classes
+
+class Transaction {
+    - transactionID: String
+    - customerID: String
+    - amount: Double
+    - date: Date
+    - merchant: String
+    - location: String
+    - category: String
+    - isFraud: Boolean
+    --
+    + getTransactionDetails(): Transaction
+    + setTransactionDetails(transactionData: Map): void
+}
+
+class Customer {
+    - customerID: String
+    - name: String
+    - email: String
+    - phone: String
+    - address: String
+    --
+    + getCustomerInfo(): Customer
+    + updateContactInfo(contactData: Map): void
+}
+
+class FraudDetector {
+    - awsAIModel: AWSAIModel
+    - smoteProcessor: SMOTEProcessor
+    - dataPreprocessor: DataPreprocessor
+    - notificationService: NotificationService
+    --
+    + detectFraud(transaction: Transaction): Boolean
+    + analyzeTransactions(transactions: List<Transaction>): void
+    + updateModel(data: Dataset): void
+}
+
+class AWSAIModel {
+    - modelID: String
+    - endpointURL: String
+    - credentials: AWSCredentials
+    --
+    + predict(data: Dataset): List<Boolean>
+    + trainModel(trainingData: Dataset): void
+}
+
+class SMOTEProcessor {
+    - samplingRatio: Double
+    --
+    + applySMOTE(data: Dataset): Dataset
+}
+
+class DataPreprocessor {
+    - scaler: Scaler
+    - encoder: Encoder
+    --
+    + preprocess(data: Dataset): Dataset
+    + scaleFeatures(data: Dataset): Dataset
+    + encodeFeatures(data: Dataset): Dataset
+}
+
+class NotificationService {
+    - emailService: EmailService
+    - smsService: SMSService
+    --
+    + notify(customer: Customer, message: String): void
+    + sendEmail(email: String, message: String): void
+    + sendSMS(phone: String, message: String): void
+}
+
+class Database {
+    - connectionString: String
+    --
+    + saveTransaction(transaction: Transaction): void
+    + fetchTransactions(criteria: Map): List<Transaction>
+    + saveCustomer(customer: Customer): void
+    + fetchCustomer(customerID: String): Customer
+}
+
+class EmailService
+class SMSService
+
+' Relationships
+
+Transaction "1" --> "1" Customer : associated with
+FraudDetector --> AWSAIModel
+FraudDetector --> SMOTEProcessor
+FraudDetector --> DataPreprocessor
+FraudDetector --> NotificationService
+NotificationService --> EmailService
+NotificationService --> SMSService
+Database --> Transaction
+Database --> Customer
+@enduml
