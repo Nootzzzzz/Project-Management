@@ -27,5 +27,3 @@ Posteriormente precisaríamos de uma ferramenta que avise o cliente de imediato 
 ### Critérios de sucesso:
 O sucesso irá ser medido tendo em conta a nossa taxa de acerto em casos realmente fraudulentos acima de 99% (Verificar métrica AUC) e trabalhar com uma empresa grande em um espaço de tempo máximo de 1 ano.
 
-### Comunicação:
-
